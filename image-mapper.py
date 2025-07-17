@@ -50,11 +50,16 @@ def display_map_with_points(coords, output_html='map.html'):
         print("No GPS data found.")
         return
 
-    # Center map on first point
-    m = folium.Map(location=[coords[0][1], coords[0][2]], zoom_start=12)
+    # # Center map on first point
+    # m = folium.Map(location=[coords[0][1], coords[0][2]], zoom_start=12)
+    
+    m = folium.Map(location=[0, 0], zoom_start=2)
 
     for name, lat, lon in coords:
         folium.Marker([lat, lon], popup=name).add_to(m)
+        
+    bounds = [[lat, lon] for _, lat, lon in coords]
+    m.fit_bounds(bounds)
 
     m.save(output_html)
     print(f"Map saved to {output_html}")
